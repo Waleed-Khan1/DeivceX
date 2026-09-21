@@ -1,0 +1,35 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Customer Orders: Create orders on checkout, read order tracking, update delivery status
+    match /orders/{orderId} {
+      allow read, write: if true;
+    }
+    
+    // User Accounts: Store encrypted customer credentials and saved addresses
+    match /users/{userId} {
+      allow read, write: if true;
+    }
+
+    // Customer Reviews: Read reviews per product and write verified buyer reviews
+    match /reviews/{reviewId} {
+      allow read, write: if true;
+    }
+
+    // Wishlists: Save and retrieve user favorite products
+    match /wishlists/{wishlistId} {
+      allow read, write: if true;
+    }
+
+    // Security & Audit Logs: Certified transaction audit trail
+    match /audit_logs/{logId} {
+      allow read, write: if true;
+    }
+
+    // Default match
+    match /{document=**} {
+      allow read, write: if true;
+    }
+  }
+}

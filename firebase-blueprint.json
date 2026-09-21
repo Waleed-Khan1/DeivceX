@@ -1,0 +1,112 @@
+{
+  "entities": {
+    "Order": {
+      "title": "Order",
+      "description": "Customer purchase transaction record with fulfillment status",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "orderNumber": { "type": "string" },
+        "date": { "type": "string" },
+        "status": {
+          "type": "string",
+          "enum": ["Confirmed", "Processing", "In Transit", "Delivered", "Cancelled"]
+        },
+        "total": { "type": "number" },
+        "subtotal": { "type": "number" },
+        "tax": { "type": "number" },
+        "shipping": { "type": "number" },
+        "discount": { "type": "number" },
+        "paymentMethod": { "type": "string" },
+        "paymentDetailsMasked": { "type": "string" },
+        "transactionHash": { "type": "string" },
+        "encryptionSignature": { "type": "string" },
+        "carrier": { "type": "string" },
+        "trackingNumber": { "type": "string" },
+        "ownerNotes": { "type": "string" },
+        "estimatedDelivery": { "type": "string" },
+        "shippingAddress": { "type": "object" },
+        "items": { "type": "array" }
+      },
+      "required": ["id", "orderNumber", "status", "total", "shippingAddress", "items"]
+    },
+    "User": {
+      "title": "User",
+      "description": "Registered customer or store manager account",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "passwordHash": { "type": "string" },
+        "joinedDate": { "type": "string" },
+        "role": { "type": "string", "enum": ["customer", "owner"] },
+        "avatarUrl": { "type": "string" },
+        "twoFactorEnabled": { "type": "boolean" },
+        "savedAddresses": { "type": "array" }
+      },
+      "required": ["id", "name", "email"]
+    },
+    "Review": {
+      "title": "Review",
+      "description": "Customer product rating and feedback",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "productId": { "type": "string" },
+        "userName": { "type": "string" },
+        "rating": { "type": "number" },
+        "date": { "type": "string" },
+        "comment": { "type": "string" },
+        "verifiedBuyer": { "type": "boolean" }
+      },
+      "required": ["id", "productId", "userName", "rating", "comment"]
+    },
+    "Wishlist": {
+      "title": "Wishlist",
+      "description": "User saved products for future purchase",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "productIds": { "type": "array" }
+      },
+      "required": ["userId", "productIds"]
+    },
+    "AuditLog": {
+      "title": "AuditLog",
+      "description": "Security and transaction activity trail",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "timestamp": { "type": "string" },
+        "action": { "type": "string" },
+        "details": { "type": "string" },
+        "securityLevel": { "type": "string" },
+        "status": { "type": "string" }
+      },
+      "required": ["id", "timestamp", "action", "details"]
+    }
+  },
+  "firestore": {
+    "/orders/{orderId}": {
+      "schema": "Order",
+      "description": "Customer purchases with status tracking and line items"
+    },
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profile records and saved shipping addresses"
+    },
+    "/reviews/{reviewId}": {
+      "schema": "Review",
+      "description": "Verified customer reviews and star ratings per product"
+    },
+    "/wishlists/{userId}": {
+      "schema": "Wishlist",
+      "description": "User wishlist item identifiers"
+    },
+    "/audit_logs/{logId}": {
+      "schema": "AuditLog",
+      "description": "Auditing log entries for checkout and authentication events"
+    }
+  }
+}

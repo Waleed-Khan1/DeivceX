@@ -1,0 +1,6 @@
+{
+  "name": "DeviceX Tech Store",
+  "description": "Minimalist, high-performance electronics store powered by Google Cloud Firestore real-time database, featuring responsive 3D card tilt physics, cursor-following 3D specular lighting, express checkout, and live order tracking.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
